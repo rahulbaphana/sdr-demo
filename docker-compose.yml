@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  redis-standalone:
+    container_name: local_redis_sdr_demo
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "6379:6379"

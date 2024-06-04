@@ -7,27 +7,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/product")
+@RestController
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductDao productDao;
 
-    @PostMapping
+    @PostMapping(value = "/products")
     public Product save(@RequestBody Product product) {
         return productDao.save(product);
     }
 
-    @GetMapping
+    @GetMapping(value = "/products")
     public List<Product> getAllProducts() {
         return productDao.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/products/{id}")
     public Product findProduct(@PathVariable int id) {
         return productDao.findProductById(id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/products/{id}")
     public String remove(@PathVariable int id) {
         return productDao.deleteProduct(id);
     }

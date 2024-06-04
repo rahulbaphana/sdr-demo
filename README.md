@@ -12,11 +12,11 @@ The intent of creating this repo was to learn about redis and how can we test it
 
 ---
 ## Tech-stack:
-#### 1. [JDK 21](https://docs.oracle.com/en/java/javase/21/). Recommended to use [SDKMAN](https://sdkman.io/) to install `JDK 21`
-#### 2. (optional) [Gradle 8.2](https://gradle.org/releases/). Recommended to use [SDKMAN](https://sdkman.io/) to install `Gradle 8.7` or above
-#### 3. Docker and docker-compose
-#### 4. Testcontainers
-#### 5. Github actions
+#### 1. [JDK 21](https://docs.oracle.com/en/java/javase/21/). Recommended to use [SDKMAN](https://sdkman.io/) to install `JDK 21`.
+#### 2. (optional since the workspace uses gradle wrapper) [Gradle 8.2](https://gradle.org/releases/). Recommended to use [SDKMAN](https://sdkman.io/) to install `Gradle 8.7` or above.
+#### 3. Docker and docker-compose.
+#### 4. Testcontainers.
+#### 5. Github workflows for running builds.
 
 ---
 ## How to run the service:

@@ -1,28 +1,13 @@
 package com.rahul.sdr.repository;
 
-import com.rahul.sdr.entity.Product;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-
 import com.rahul.sdr.BaseIntegrationTest;
+import com.rahul.sdr.entity.Product;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ProductDaoTest extends BaseIntegrationTest {
-
-    @Autowired
-    private ProductDao productDao;
-
-    @Autowired
-    private RedisTemplate redisTemplate;
-
-    @BeforeEach
-    public void beforeEach() {
-        redisTemplate.getConnectionFactory().getConnection().flushDb();
-    }
 
     @Test
     void saveProduct_shouldSaveProductToRedis() {

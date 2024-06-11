@@ -36,7 +36,7 @@ public class ProductController {
         return productDao.deleteProduct(id);
     }
 
-    @PostMapping("/product/sendAvroMessage")
+    @PostMapping("/products/sendAvroMessage")
     public String sendMessageToKafkaTopic(@RequestBody Product product) {
         ProductAvro productAvro = new ProductAvro(product.getId(), product.getName(), product.getQuantity(), product.getPrice());
         producerService.sendMessage(productAvro);

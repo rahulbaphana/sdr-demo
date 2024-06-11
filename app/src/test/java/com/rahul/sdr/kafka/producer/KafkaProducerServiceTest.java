@@ -1,19 +1,17 @@
 package com.rahul.sdr.kafka.producer;
 
 import com.rahul.sdr.BaseIntegrationTest;
-import com.rahul.sdr.RetryUtil;
 import com.rahul.sdr.entity.Product;
 import com.rahul.sdr.kafka.generated.ProductAvro;
-import com.rahul.sdr.repository.ProductDao;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.ConsumerFactory;
 
-import java.time.Duration;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.awaitility.Awaitility.await;
 
 @SpringBootTest
 class KafkaProducerServiceTest extends BaseIntegrationTest {
@@ -24,30 +22,19 @@ class KafkaProducerServiceTest extends BaseIntegrationTest {
     @Autowired
     private ConsumerFactory consumerFactory;
 
-    @Autowired
-    private ProductDao productDao;
-
     @Test
     void testProducerUntilRedisCacheIsUpdated() {
+        // Given
         final AtomicInteger counter = new AtomicInteger(0);
         ProductAvro doveSoap = new ProductAvro(7, "Dove Soap", 11, 52L);
-        productDao.deleteProduct(doveSoap.getId());
+        Assertions.assertNull(productDao.findProductById(doveSoap.getId()));
 
+        // When
         kafkaProducerService.sendMessage(doveSoap);
 
-        Product result = RetryUtil.retryUntil(
-                () -> {
-                    int count = counter.incrementAndGet();
-                    if (count < 5) {
-                        return null;
-                    } else {
-                        return productDao.findProductById(doveSoap.getId());
-                    }
-                },
-                Objects::nonNull,
-                Duration.ofSeconds(30),
-                Duration.ofMillis(500)
-        );
+        // Then
+        await().atMost(TIMEOUT_30_SECONDS).until(() -> productDao.findProductById(doveSoap.getId()) != null);
+        Product result = productDao.findProductById(doveSoap.getId());
         Assertions.assertEquals(doveSoap.getId(), result.getId());
         Assertions.assertEquals(doveSoap.getName(), result.getName());
         Assertions.assertEquals(doveSoap.getQuantity(), result.getQuantity());

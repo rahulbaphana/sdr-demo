@@ -52,18 +52,6 @@ generateAvroJava {
     outputCharacterEncoding = "UTF-8"
 }
 
-// Exclude the main source set to prevent Gradle from expecting a main class
-sourceSets {
-    main {
-        java {
-            srcDirs = []
-        }
-        resources {
-            srcDirs = []
-        }
-    }
-}
-
 jar {
     manifest {
         attributes(

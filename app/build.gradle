@@ -43,6 +43,8 @@ dependencies {
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     testImplementation 'org.testcontainers:kafka:1.17.6'
 
+    testImplementation 'org.awaitility:awaitility:4.2.1'
+
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

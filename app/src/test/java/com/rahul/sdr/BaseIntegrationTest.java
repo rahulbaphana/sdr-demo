@@ -1,18 +1,21 @@
 package com.rahul.sdr;
 
+import com.rahul.sdr.repository.ProductDao;
 import io.confluent.kafka.schemaregistry.client.MockSchemaRegistryClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.Network;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
+
+import java.time.Duration;
 
 @SpringBootTest
 @EnableKafka
@@ -25,13 +28,19 @@ import org.testcontainers.utility.DockerImageName;
         }
 )
 public abstract class BaseIntegrationTest {
-    public static final Network NETWORK = Network.newNetwork();
+    public static final Duration TIMEOUT_30_SECONDS = Duration.ofSeconds(30);
 
     @Autowired
     protected EmbeddedKafkaBroker embeddedKafkaBroker;
 
     @Autowired
     protected DynamicPropertyRegistry registry;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    protected ProductDao productDao;
 
     protected MockSchemaRegistryClient schemaRegistryClient;
 
@@ -49,6 +58,7 @@ public abstract class BaseIntegrationTest {
     @BeforeEach
     void setUp() {
         this.schemaRegistryClient = new MockSchemaRegistryClient();
+        redisTemplate.getConnectionFactory().getConnection().flushDb();
     }
 
     @DynamicPropertySource

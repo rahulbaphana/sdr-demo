@@ -37,6 +37,23 @@ subprojects {
 	}
 }
 
+project(':app') {
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	dependencies {
+		implementation project(':avro')
+	}
+
+	bootRun {
+		mainClass = 'com.rahul.sdr.SdrDemoApplication'
+	}
+
+	springBoot {
+		mainClass = 'com.rahul.sdr.SdrDemoApplication'
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -68,6 +85,14 @@ test {
 	useJUnitPlatform()
 }
 
+bootRun {
+	mainClass = project(':app').bootRun.mainClass.get()
+}
+
 springBoot {
-	mainClass = 'com.rahul.sdr.SdrDemoApplication'
+	mainClass = project(':app').springBoot.mainClass.get()
+}
+
+build {
+	dependsOn "generateAvroJava"
 }

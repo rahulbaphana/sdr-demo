@@ -51,3 +51,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+springBoot {
+    mainClass = 'com.rahul.sdr.SdrDemoApplication'
+}
+

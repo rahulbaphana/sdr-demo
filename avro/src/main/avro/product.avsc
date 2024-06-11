@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "ProductAvro",
+  "namespace": "com.rahul.sdr.kafka.generated",
+  "fields": [
+    {"name": "id", "type": "int"},
+    {"name": "name", "type": "string"},
+    {"name": "quantity", "type": "int"},
+    {"name": "price", "type": "long"}
+  ]
+}

@@ -1,23 +1,19 @@
 package com.rahul.sdr.kafka.producer;
 
 import com.rahul.sdr.BaseIntegrationTest;
+import com.rahul.sdr.RetryUtil;
+import com.rahul.sdr.entity.Product;
 import com.rahul.sdr.kafka.generated.ProductAvro;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.junit.Ignore;
+import com.rahul.sdr.repository.ProductDao;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.test.utils.KafkaTestUtils;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest
 class KafkaProducerServiceTest extends BaseIntegrationTest {
@@ -29,22 +25,32 @@ class KafkaProducerServiceTest extends BaseIntegrationTest {
     private ConsumerFactory consumerFactory;
 
     @Autowired
-    private KafkaTemplate<String, ProductAvro> kafkaTemplate;
-
-    @Autowired
-    private ConcurrentKafkaListenerContainerFactory<String, ProductAvro> kafkaListenerContainerFactory;
+    private ProductDao productDao;
 
     @Test
-    @Ignore
-    void testProducer() {
+    void testProducerUntilRedisCacheIsUpdated() {
+        final AtomicInteger counter = new AtomicInteger(0);
         ProductAvro doveSoap = new ProductAvro(7, "Dove Soap", 11, 52L);
-        Map props = consumerFactory.getConfigurationProperties();
-        KafkaConsumer consumer = new KafkaConsumer(props);
-        consumer.subscribe(List.of(KafkaProducerService.TOPIC));
+        productDao.deleteProduct(doveSoap.getId());
 
         kafkaProducerService.sendMessage(doveSoap);
 
-        Object next = consumer.poll(Duration.ofSeconds(30)).iterator().next();
-        Assertions.assertNotNull(next);
+        Product result = RetryUtil.retryUntil(
+                () -> {
+                    int count = counter.incrementAndGet();
+                    if (count < 5) {
+                        return null;
+                    } else {
+                        return productDao.findProductById(doveSoap.getId());
+                    }
+                },
+                Objects::nonNull,
+                Duration.ofSeconds(30),
+                Duration.ofMillis(500)
+        );
+        Assertions.assertEquals(doveSoap.getId(), result.getId());
+        Assertions.assertEquals(doveSoap.getName(), result.getName());
+        Assertions.assertEquals(doveSoap.getQuantity(), result.getQuantity());
+        Assertions.assertEquals(doveSoap.getPrice(), result.getPrice());
     }
 }

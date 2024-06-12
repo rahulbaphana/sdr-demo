@@ -77,10 +77,11 @@ $ ./gradlew clean build
 
 #### 6. Run redis server locally (one of the below)
 ```sh
-$ docker compose up -d 
+# Run this in new window. Please wait till the log generation stops.
+$ docker compose up 
 
 # NOTE: if you want to destroy and recreate the redis server use the below command:
-# docker compose up -d  --force-recreate
+# docker compose up --force-recreate
 ```
 
 #### 7. Run the spring boot service 

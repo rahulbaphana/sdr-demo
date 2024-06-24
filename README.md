@@ -1,3 +1,8 @@
+[![Build with dependency graph](https://github.com/rahulbaphana/sdr-demo/actions/workflows/gradle.yml/badge.svg)](https://github.com/rahulbaphana/sdr-demo/actions/workflows/gradle.yml)
+[![Dependabot Updates](https://github.com/rahulbaphana/sdr-demo/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/rahulbaphana/sdr-demo/actions/workflows/dependabot/dependabot-updates)
+
+
+---
 # Spring data redis demo app
 A demo springboot service to integrate with redis. This app does not have api tests but only a repository test. 
 The intent of creating this repo was to learn about redis and how can we test it with springboot + testcontainers + github actions.

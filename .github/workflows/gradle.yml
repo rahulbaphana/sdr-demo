@@ -1,4 +1,4 @@
-name: Java 21 with Gradle for sdr-demo springboot service
+name: Build with dependency graph
 
 on:
   push:

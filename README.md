@@ -1,4 +1,5 @@
 [![Build with dependency graph](https://github.com/rahulbaphana/sdr-demo/actions/workflows/gradle.yml/badge.svg)](https://github.com/rahulbaphana/sdr-demo/actions/workflows/gradle.yml)
+[![Dependabot Updates](https://github.com/rahulbaphana/sdr-demo/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/rahulbaphana/sdr-demo/actions/workflows/dependabot/dependabot-updates)
 
 
 ---

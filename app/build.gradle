@@ -34,8 +34,8 @@ dependencies {
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    implementation 'org.projectlombok:lombok:1.18.32' // Add Lombok dependency
-    annotationProcessor 'org.projectlombok:lombok:1.18.32' // Lombok annotation processor
+    implementation 'org.projectlombok:lombok:1.18.34' // Add Lombok dependency
+    annotationProcessor 'org.projectlombok:lombok:1.18.34' // Lombok annotation processor
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'

@@ -30,7 +30,7 @@ dependencies {
 
     implementation project(':avro')
 
-    implementation 'redis.clients:jedis:5.1.3'
+    implementation 'redis.clients:jedis:5.1.4'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

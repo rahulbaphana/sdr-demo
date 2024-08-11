@@ -83,6 +83,13 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	// Enable parallel test execution
+	maxParallelForks = Runtime.runtime.availableProcessors()
+
+	// Configure test logging
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
 }
 
 bootRun {
